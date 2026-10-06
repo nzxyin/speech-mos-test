@@ -1,0 +1,93 @@
+{
+ "emos": {
+  "checks": [
+   {
+    "trial_id": "ce1",
+    "reference": "audio/checks/ce1_ref.wav",
+    "stimulus": "audio/checks/ce1.wav",
+    "expected": "5"
+   },
+   {
+    "trial_id": "ce2",
+    "reference": "audio/checks/ce2_ref.wav",
+    "stimulus": "audio/checks/ce2.wav",
+    "expected": "1-2"
+   },
+   {
+    "trial_id": "ce3",
+    "reference": "audio/checks/ce3_ref.wav",
+    "stimulus": "audio/checks/ce3.wav",
+    "expected": "5"
+   },
+   {
+    "trial_id": "ce4",
+    "reference": "audio/checks/ce4_ref.wav",
+    "stimulus": "audio/checks/ce4.wav",
+    "expected": "1-2"
+   }
+  ],
+  "practice": [
+   {
+    "reference": "audio/checks/pe1_ref.wav",
+    "stimulus": "audio/checks/pe1.wav",
+    "note": "Both clips have the same emotion, even though the sentences differ. A rating of 4 or 5 fits here."
+   },
+   {
+    "reference": "audio/checks/pe2_ref.wav",
+    "stimulus": "audio/checks/pe2.wav",
+    "note": "The sentence and the speaker are the same, but the emotion is clearly different. A rating of 1 or 2 fits here."
+   }
+  ]
+ },
+ "nmos": {
+  "checks": [
+   {
+    "trial_id": "cn1",
+    "stimulus": "audio/checks/cn1.wav",
+    "expected": "4-5"
+   },
+   {
+    "trial_id": "cn2",
+    "stimulus": "audio/checks/cn2.wav",
+    "expected": "1-2"
+   },
+   {
+    "trial_id": "cn3",
+    "stimulus": "audio/checks/cn3.wav",
+    "expected": "4-5"
+   },
+   {
+    "trial_id": "cn4",
+    "stimulus": "audio/checks/cn4.wav",
+    "expected": "1-2"
+   }
+  ],
+  "practice": [
+   {
+    "stimulus": "audio/checks/pn1.wav",
+    "note": "This is a recording of a real person. Most listeners would rate it 4 or 5."
+   },
+   {
+    "stimulus": "audio/checks/pn2.wav",
+    "note": "This clip is heavily degraded (noise and low bandwidth). Most listeners would rate it 1 or 2."
+   }
+  ]
+ },
+ "headphone": {
+  "tone": "audio/checks/tone.wav",
+  "digits": [
+   {
+    "audio": "audio/checks/digits_1.wav",
+    "answer": "5260"
+   },
+   {
+    "audio": "audio/checks/digits_2.wav",
+    "answer": "1815"
+   },
+   {
+    "audio": "audio/checks/digits_3.wav",
+    "answer": "9083"
+   }
+  ]
+ }
+}
