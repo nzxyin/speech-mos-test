@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-07
+
+- Connected the deployed Apps Script web app (`APPS_SCRIPT_URL` in `config.js`).
+
 ## 2026-10-06
 
 - Initial site: consent, setup questions, sound check, E-MOS / NMOS / E-MOS blocks with practice

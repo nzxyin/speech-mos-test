@@ -1,7 +1,7 @@
 // Site configuration. APPS_SCRIPT_URL is the /exec URL of the deployed web app (README, "Backend").
 // The token is not a secret: it ships with the page and only filters stray traffic.
 const CONFIG = {
-  APPS_SCRIPT_URL: '',
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzp5jMLegOXG3fwkE35UH_x5Kx52gowKkMRLu991mad22gOSdRM_pgTvCQxHqn3W14-DA/exec',
   TOKEN: '839ACyrkjLPgbOYVXbcVQnQrf8ZUizUp',
   CONTACT: 'xoy@andrew.cmu.edu',
   REPLAY_LIMIT: 3,          // plays allowed per clip (reference and stimulus counted separately)

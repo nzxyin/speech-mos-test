@@ -18,7 +18,6 @@ Google Apps Script backend writing to a private Google Sheet. See README.md for 
 ## Current state
 
 - Site, backend, local dev server, backend tests and Playwright end-to-end tests are in place.
-- The backend has to be deployed by the Sheet owner (README, "Backend"); `APPS_SCRIPT_URL` in
-  `config.js` is empty until then, and the page falls back to local group assignment and a
-  downloadable JSON backup.
-- Next: deploy the backend, pilot with 3 to 5 lab members, check the median duration, then share.
+- The backend is deployed (2026-10-07) and `APPS_SCRIPT_URL` in `config.js` points at it. If the
+  backend cannot be reached, the page falls back to local group assignment and a JSON backup.
+- Next: pilot with 3 to 5 lab members, check the median duration, then share.
