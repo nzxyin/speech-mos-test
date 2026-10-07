@@ -72,7 +72,7 @@ async function doTrial(page, rating) {
 async function runBlock(page, label, onTrial) {
   await page.waitForSelector('h1');
   let h = await page.textContent('h1');
-  assert.ok(/^Part \d of 3/.test(h), `expected intro, got ${h}`);
+  assert.ok(/^Part \d of \d/.test(h), `expected intro, got ${h}`);
   await clickText(page, 'Start');
   await page.waitForFunction(() => !/^Part \d of/.test(document.querySelector('h1').textContent));
   let n = 0;
@@ -158,18 +158,17 @@ async function main() {
         await page.reload();
         await page.waitForSelector('h1');
         const h = await page.textContent('h1');
-        assert.ok(h.endsWith(': 12 of 33'), 'resume went to ' + h);
+        assert.ok(h.endsWith(': 12 of 23'), 'resume went to ' + h);
       }
     });
-    // Block 2 (NMOS): the server fails for trials 5 to 25; rows must arrive later anyway.
+    // Block 2 (NMOS): the server fails for trials 4 to 18; rows must arrive later anyway.
     const n2 = await runBlock(page, 'nmos', async (i) => {
-      if (i === 5) await fail(true);
-      if (i === 25) {
+      if (i === 4) await fail(true);
+      if (i === 18) {
         await page.waitForSelector('#netstatus:not([hidden])', {timeout: 70000});
         await fail(false);
       }
     });
-    const n3 = await runBlock(page, 'emos2');
     await page.waitForFunction(() => /All your answers have been saved/.test(document.body.textContent),
       null, {timeout: 120000});
     await shot(page, '06_done');
@@ -180,8 +179,8 @@ async function main() {
     const C = Object.fromEntries(sh.responses[0].map((c, i) => [c, i]));
     const keys = rows.map((r) => r[C.submission_id] + '|' + r[C.trial_id]);
     assert.strictEqual(new Set(keys).size, keys.length, 'duplicate rows');
-    assert.strictEqual(rows.length, n1 + n2 + n3);
-    assert.strictEqual(n1, 33); assert.strictEqual(n2, 40); assert.strictEqual(n3, 33);
+    assert.strictEqual(rows.length, n1 + n2);
+    assert.strictEqual(n1, 23); assert.strictEqual(n2, 24);
     // Each E-MOS block: every target once among non-check, non-repeat trials; groups differ.
     const groups = {};
     for (const test of ['emos', 'nmos']) {
@@ -198,16 +197,17 @@ async function main() {
         assert.strictEqual(tg.length, Object.keys(T.trials).length / T.n_groups);
         const expected = T.groups[g].orders[0].filter((x) => !x.endsWith('#r')).sort();
         assert.deepStrictEqual(main.map((r) => r[C.trial_id]).sort(), expected, `${test} group ${g} stimuli`);
-        assert.strictEqual(rs.filter((r) => r[C.is_check]).length, test === 'emos' ? 2 : 4);
+        assert.strictEqual(rs.filter((r) => r[C.is_check]).length, 2);
         assert.strictEqual(rs.filter((r) => String(r[C.trial_id]).endsWith('#r')).length, 1);
       }
     }
-    assert.strictEqual(groups.emos.length, 2, 'second E-MOS block reused the group');
+    assert.strictEqual(groups.emos.length, 1);
+    assert.strictEqual(groups.nmos.length, 1);
     const rater = sh.raters.find((r) => r[0] === 'e2e_alice');
     assert.strictEqual(rater[7], 1);
     assert.strictEqual(rater[8], code);
     assert.strictEqual(rater[4], 1);
-    assert.strictEqual(rater[12].split(';').length, 3);
+    assert.strictEqual(rater[12].split(';').length, 2);
     assert.ok(rows.every((r) => r[C.listen_ms] > 0 && r[C.plays_stim] >= 1));
     assert.ok(rows.filter((r) => r[C.test] === 'emos').every((r) => r[C.plays_ref] >= 1));
     assert.deepStrictEqual(errors, [], 'page errors');
@@ -223,7 +223,7 @@ async function main() {
     await page.waitForSelector('text=Practice 1');
     await shot(page, '07_mobile_practice');
     const asg = (await sheet()).assignments.slice(1).filter((r) => r[0] === 'emos');
-    assert.ok(asg.filter((r) => r[2] > 0).length === 3, 'bob should get a third, unused E-MOS group');
+    assert.ok(asg.filter((r) => r[2] > 0).length === 2, 'bob should get a second, unused E-MOS group');
     // Layout: no horizontal scroll on a phone.
     const wide = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
     assert.ok(!wide, 'horizontal scroll on mobile');

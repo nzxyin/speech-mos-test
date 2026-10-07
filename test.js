@@ -298,7 +298,7 @@ function isTouch() {
 }
 
 function renderConsent() {
-  const mins = 20;
+  const mins = 10;
   app().innerHTML = `
     <h1>Speech listening test</h1>
     ${isTouch() ? '<p class="warn">You seem to be on a phone or tablet. If possible, please use a computer with headphones.</p>' : ''}

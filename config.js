@@ -6,13 +6,12 @@ const CONFIG = {
   CONTACT: 'xoy@andrew.cmu.edu',
   REPLAY_LIMIT: 3,          // plays allowed per clip (reference and stimulus counted separately)
   BATCH_SIZE: 10,           // ratings per background submission
-  STORAGE_KEY: 'mos_test_state_v1',
-  // Order of blocks. The second E-MOS block uses a different Latin-square group than the first,
-  // so the listener hears every target again but from different systems.
+  STORAGE_KEY: 'mos_test_state_v2',  // bump when the block layout changes
+  // Order of blocks; `checks` indexes data/checks.json. Each block has one check expected high
+  // and one expected low. A repeated test (same test twice) gets a different Latin-square group.
   BLOCKS: [
     {test: 'emos', checks: [0, 1]},
-    {test: 'nmos', checks: [0, 1, 2, 3]},
-    {test: 'emos', checks: [2, 3]},
+    {test: 'nmos', checks: [0, 1]},
   ],
   TESTS: {
     emos: {

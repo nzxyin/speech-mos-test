@@ -3,6 +3,10 @@
 ## 2026-10-07
 
 - Connected the deployed Apps Script web app (`APPS_SCRIPT_URL` in `config.js`).
+- Cut the test from 106 to 47 ratings per listener to limit fatigue: one E-MOS block (20 targets,
+  100 clips, 5 groups) and one NMOS block (21 targets, 147 clips, 7 groups), each with 2 checks and
+  1 repeat. New clip ids and orders; `STORAGE_KEY` bumped to `v2` so saved progress from the old
+  layout is ignored. Backend unchanged (still 5 and 7 groups).
 
 ## 2026-10-06
 

@@ -16,7 +16,7 @@ repository or its history.
 
 ## Flow
 
-1. **Information and consent.** Purpose, duration (about 20 minutes), anonymity, voluntary
+1. **Information and consent.** Purpose, duration (about 10 minutes), anonymity, voluntary
    participation, the IRB exemption and a contact address. A checkbox is required.
 2. **About you.** A required alias (letters, digits, `-`, `_`; it can be prefilled with
    `?rater=alias`) and optional questions: listening device, native English speaker, years of
@@ -25,9 +25,8 @@ repository or its history.
 3. **Sound check.** A tone to set the volume, then a spoken 4-digit sequence (at most 2 plays) that
    the listener types. A second, different sequence is offered after a wrong answer. Two failures
    end the test with a polite message.
-4. **Three blocks:** E-MOS, NMOS, then a second E-MOS block. Each test starts with instructions and
-   two practice trials that are not recorded and that show feedback on the expected rating. The
-   second E-MOS block shows a short reminder instead.
+4. **Two blocks:** E-MOS, then NMOS. Each starts with instructions and two practice trials that
+   are not recorded and that show feedback on the expected rating.
 5. **Trials.** One page per trial with custom play buttons (at most 3 plays per clip). For E-MOS
    the second clip unlocks after the reference has played once, and the rating unlocks after both
    clips have played once. For NMOS the rating unlocks after the clip has played once. Five large
@@ -49,16 +48,19 @@ system.
 
 | Test | Systems S | Targets T | Clips | Trials per block | Checks per block | Repeat per block |
 |---|---|---|---|---|---|---|
-| E-MOS | 5 | 30 | 150 | 30 | 2 | 1 |
-| NMOS | 7 | 35 | 245 | 35 | 4 | 1 |
+| E-MOS | 5 | 20 | 100 | 20 | 2 | 1 |
+| NMOS | 7 | 21 | 147 | 21 | 2 | 1 |
 
-A listener does E-MOS twice with two different groups, so for every target they rate two different
-systems. Per listener this gives 60 + 4 + 2 E-MOS ratings and 35 + 4 + 1 NMOS ratings.
+Per listener this gives 20 + 2 + 1 = 23 E-MOS ratings (4 per system) and 21 + 2 + 1 = 24 NMOS
+ratings (3 per system), 47 in total. The count was cut from 106 on 2026-10-07 to limit rater
+fatigue. The E-MOS targets are 2 per speaker and emotion (2 held-out speakers, 5 emotions); the
+NMOS targets are one utterance per speaker. `config.js` can still list a test twice in `BLOCKS`;
+the second block then gets a different group.
 
 **Group assignment.** At the start of each block the page calls `?action=assign`. The server picks
 the group with the fewest completed blocks (counted from the `raters` tab), then the fewest
-assignments, then the lowest number, and skips groups this alias has already completed and the
-group of the listener's first E-MOS block. Abandoned sessions therefore do not leave holes. If the
+assignments, then the lowest number, and skips groups this alias has already completed (and, if a
+test appears twice in `BLOCKS`, the group of its first block). Abandoned sessions therefore do not leave holes. If the
 server cannot be reached the page picks a group from a hash of the alias and records
 `group_source: local` in the downloadable backup.
 
@@ -68,15 +70,17 @@ positions later (trial id `<id>#r`), to measure rater consistency. The page pick
 orders with a seed from the alias and the session, and inserts the attention checks at seeded,
 spread-out positions.
 
-**Attention checks** (expected rating in brackets):
+**Attention checks** (expected rating in brackets), one of each per test:
 - E-MOS: a reference paired with itself (5), and a pair with the same speaker and sentence but a
-  clearly different emotion (1 or 2). Two of each, one of each per block.
+  clearly different emotion (1 or 2).
 - NMOS: a real recording that is not a target (4 or 5), and a heavily degraded recording: 8 kHz,
-  8 kbit/s MP3 and white noise at 5 dB SNR (1 or 2). Two of each.
+  8 kbit/s MP3 and white noise at 5 dB SNR (1 or 2).
+`data/checks.json` holds two variants of each; `checks` in `config.js` picks which are used.
 
 **Pre-registered exclusion rules** (applied per listener, before looking at system results):
-1. A listener who fails more than 1 of the 4 checks of a test is excluded from that test. A check
-   fails when the rating is outside the expected range.
+1. A listener who fails more than 1 of the 4 checks (2 per test) is excluded from both tests. A
+   listener who fails both checks of one test is excluded from that test. A check fails when the
+   rating is outside the expected range.
 2. A listener whose median time per trial in a test is below one third of the median over all
    listeners is excluded from that test.
 3. A listener who gives the same rating to every trial of a test is excluded from that test.
