@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-08
+
+- Replaced 21 NMOS clips (n004, n008, n010, n012, n013, n016, n030, n034, n050, n055, n058, n069,
+  n072, n077, n081, n095, n100, n112, n114, n125, n137) whose source audio was invalid. Ids,
+  targets and groups are unchanged. Ratings of these ids collected before this commit went live
+  rate the old audio and must be excluded.
+
 ## 2026-10-07
 
 - Connected the deployed Apps Script web app (`APPS_SCRIPT_URL` in `config.js`).
